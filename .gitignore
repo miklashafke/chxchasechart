@@ -1,0 +1,16 @@
+# Generated figures and tables
+chx_chase.png
+chx_chase.pdf
+chx_chase.svg
+chx_chase_summary.csv
+chx_chase_per_replicate.csv
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Editors
+.idea/
+.vscode/

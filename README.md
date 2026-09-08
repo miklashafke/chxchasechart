@@ -133,6 +133,7 @@ python chx_chase.py RAW CONTROL CONDITIONS [options]
 | `--font` | `Liberation Serif` | Font family; warns if not installed |
 | `--fontsize` | `9` | Text size in pt |
 | `--yticks` | `0 50 100` | Y ticks, in percent |
+| `--errorbars` / `--no-errorbars` | auto | Draw SD error bars; on by default with more than one replicate |
 | `--ylabel` | `% substrate remaining` | Y-axis label |
 | `--legend-loc` | `none` | `lower left`, `upper right`, … to add a legend |
 | `--title` | none | Plot title |

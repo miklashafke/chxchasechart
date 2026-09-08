@@ -452,6 +452,10 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--yticks", nargs="+", type=float, default=[0.0, 50.0, 100.0], metavar="PCT",
         help="y-axis ticks, in percent",
     )
+    parser.add_argument(
+        "--errorbars", action=argparse.BooleanOptionalAction, default=None,
+        help="draw SD error bars (default: on when there is more than one replicate)",
+    )
     parser.add_argument("--fontsize", type=float, default=9.0, help="text size in pt")
     parser.add_argument(
         "--font", default="Liberation Serif", help="font family for all text in the figure"
@@ -565,6 +569,15 @@ def run(args: argparse.Namespace) -> int:
         matplotlib.use("Agg")
     from matplotlib import pyplot as plt
 
+    # There is only an SD to draw once replicates have been averaged.
+    show_errorbars = args.replicates > 1 if args.errorbars is None else args.errorbars
+    if show_errorbars and args.replicates < 2:
+        print(
+            "note: --errorbars needs more than one replicate; there is no SD to draw.",
+            file=sys.stderr,
+        )
+        show_errorbars = False
+
     figure = plot_chase(
         summary=summary,
         condition_names=condition_names,
@@ -573,7 +586,7 @@ def run(args: argparse.Namespace) -> int:
         xlabel=xlabel,
         ylabel=args.ylabel,
         title=args.title,
-        show_errorbars=args.replicates > 1,
+        show_errorbars=show_errorbars,
         # A lone unnamed series needs no legend box; the title carries it.
         show_legend=(
             args.legend_loc.lower() != "none"
